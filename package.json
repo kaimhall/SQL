@@ -1,0 +1,35 @@
+{
+  "name": "blogpg",
+  "version": "1.0.0",
+  "description": "blog app using postgres",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext js,jsx src",
+    "lint:fix": "eslint --ext js,jsx src --fix",
+    "format": "prettier-eslint --write \"src/**/*.{js,jsx}\""
+  },
+  "keywords": [
+    "postgress",
+    "javascript"
+  ],
+  "author": "kai hall",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "pg": "^8.7.3",
+    "sequelize": "^6.21.0"
+  }
+}
