@@ -6,7 +6,7 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'standard',
+    'google',
     'plugin:prettier/recommended'
   ],
   parserOptions: {
@@ -18,6 +18,9 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
+    'object-curly-spacing': ['warn', 'always'],
+    semi: ['error', 'never'],
+    indent: ['error', 2],
     'prettier/prettier': [
       'error',
       {

@@ -4,6 +4,7 @@
   "description": "blog app using postgres",
   "main": "cli.js",
   "scripts": {
+    "dev": "nodemon cli.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext js,jsx src",
     "lint:fix": "eslint --ext js,jsx src --fix",
@@ -29,6 +30,7 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "sequelize": "^6.21.0"
   }
