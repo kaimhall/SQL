@@ -2,8 +2,8 @@ const router = require('express').Router()
 
 const { Blog } = require('../models')
 
-const noteFinder = async (req, res, next) => {
-  req.note = await Note.findByPk(req.params.id)
+const blogFinder = async (req, res, next) => {
+  req.blog = await Blog.findByPk(req.params.id)
   next()
 }
 
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-router.post('/', noteFinder, async (req, res) => {
+router.post('/', blogFinder, async (req, res) => {
   try {
     const blog = await Blog.create(req.body)
     res.json(blog)
@@ -22,7 +22,7 @@ router.post('/', noteFinder, async (req, res) => {
   }
 })
 
-router.get('/:id', noteFinder, async (req, res) => {
+router.get('/:id', blogFinder, async (req, res) => {
   const blog = await Blog.findByPk(req.params.id)
   if (blog) {
     res.json(blog)
@@ -31,7 +31,7 @@ router.get('/:id', noteFinder, async (req, res) => {
   }
 })
 
-router.delete('/:id', noteFinder, async (req, res) => {
+router.delete('/:id', blogFinder, async (req, res) => {
   const blog = await Blog.findByPk(req.params.id)
   if (blog) {
     await blog.destroy()
@@ -39,10 +39,10 @@ router.delete('/:id', noteFinder, async (req, res) => {
   res.status(204).end()
 })
 
-router.put('/:id', noteFinder, async (req, res) => {
+router.put('/:id', blogFinder, async (req, res) => {
   const blog = await Blog.findByPk(req.params.id)
   if (blog) {
-    blog.important = req.body.important
+    blog.likes = req.body.likes
     await blog.save()
     res.json(blog)
   } else {
