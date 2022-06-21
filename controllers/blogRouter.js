@@ -1,52 +1,46 @@
 const router = require('express').Router()
+const { Blog, User } = require('../models')
 
-const { Blog } = require('../models')
-
-const blogFinder = async (req, res, next) => {
+const blogFinder = async (req) => {
   req.blog = await Blog.findByPk(req.params.id)
-  next()
 }
 
 
 router.get('/', async (req, res) => {
   const blogs = await Blog.findAll()
   res.json(blogs)
-})
+}
+)
 
-router.post('/', blogFinder, async (req, res) => {
-  try {
-    const blog = await Blog.create(req.body)
-    res.json(blog)
-  } catch (error) {
-    return res.status(400).json({ error })
-  }
-})
+router.post('/', async (req, res) => {
+  const user = await User.findOne()
+  const blog = await Blog.create({ ...req.body, userId: user.id })
+  res.json(blog)
+}
+)
 
 router.get('/:id', blogFinder, async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id)
-  if (blog) {
-    res.json(blog)
+  if (req.note) {
+    res.json(req.note)
   } else {
-    res.status(404).end()
+    res.status(404).send({ error: 'blog not found' })
   }
 })
 
 router.delete('/:id', blogFinder, async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id)
-  if (blog) {
-    await blog.destroy()
+  if (req.note) {
+    await req.note.destroy()
   }
-  res.status(204).end()
+  res.status(204).send({ error: 'blog not found' })
 })
 
 router.put('/:id', blogFinder, async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id)
-  if (blog) {
-    blog.likes = req.body.likes
-    await blog.save()
-    res.json(blog)
+  if (req.blog) {
+    req.blog.likes = req.body.likes
+    await req.blog.save()
+    res.json(req.blog)
   } else {
-    res.status(404).end()
+    res.status(404).send({ error: 'blog not found' })
   }
 })
 

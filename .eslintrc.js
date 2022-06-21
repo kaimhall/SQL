@@ -1,33 +1,39 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true
+  'env': {
+    'browser': true,
+    'es2021': true,
+    'node': true
   },
-  extends: [
-    'plugin:react/recommended',
-    'google',
-    'plugin:prettier/recommended'
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended'
   ],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
+  'parserOptions': {
+    'ecmaFeatures': {
+      'jsx': true
     },
-    ecmaVersion: 'latest',
-    sourceType: 'module'
+    'ecmaVersion': 'latest',
+    'sourceType': 'module'
   },
-  plugins: ['react', 'prettier'],
-  rules: {
-    'object-curly-spacing': ['warn', 'always'],
-    semi: ['error', 'never'],
-    indent: ['error', 2],
-    'prettier/prettier': [
+  'plugins': [
+    'react'
+  ],
+  'rules': {
+    'indent': [
       'error',
-      {
-        singleQuote: true,
-        semi: false,
-        trailingComma: 'none'
-      }
+      2
+    ],
+    'linebreak-style': [
+      'error',
+      'unix'
+    ],
+    'quotes': [
+      'error',
+      'single'
+    ],
+    'semi': [
+      'error',
+      'never'
     ]
   }
 }

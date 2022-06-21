@@ -1,9 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6MSwiaWF0IjoxNjU1ODEyMjE3fQ.6igyIEuOEDhWwfCurk1ohcXKayj3814M_RfrObi8Bso
 
 {
-  "author":"Barry Mason",
-  "url":"www.web.org",
-  "title": "mystery of typescript interfaces",
-  "likes": 1
+  "author":"root",
+  "url": "www.root.org",
+  "title": "rooting for root",
+  "likes": 0
 }

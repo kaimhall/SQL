@@ -1,0 +1,6 @@
+PUT http://localhost:3001/api/users/root
+Content-Type: application/json
+
+{
+  "username":"kai mikael"
+}
