@@ -47,11 +47,17 @@ router.get('/:id', blogFinder, async (req, res) => {
   }
 })
 
-router.delete('/:id', blogFinder, async (req, res) => {
-  if (req.note) {
-    await req.note.destroy()
-  } else {
-    res.status(204).send({error: 'blog not found'})
+router.delete('/:id', tokenExtractor, async (req, res) => {
+  const user = await User.findByPk(req.decodedToken.id)
+  const blog = await Blog.findByPk(req.params.id)
+  if (blog.userId === user.id) {
+    blog.destroy({
+      where: {
+        id: blog.id,
+      },
+    })
+    // eslint-disable-next-line quotes
+    res.send(`deleted blog id ${req.params.id}`)
   }
 })
 
