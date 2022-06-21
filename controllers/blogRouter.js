@@ -31,7 +31,18 @@ router.delete('/:id', blogFinder, async (req, res) => {
   if (req.note) {
     await req.note.destroy()
   }
-  res.status(204).send({ error: 'blog not found' })
+
+  else {
+    res.status(204).send({ error: 'blog not found' })
+  }
+})
+
+// eslint-disable-next-line no-unused-vars
+router.delete('/', async (req, res) => {
+  await Blog.destroy({
+    truncate: true
+  })
+  res.json('table wiped')
 })
 
 router.put('/:id', blogFinder, async (req, res) => {

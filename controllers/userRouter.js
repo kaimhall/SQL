@@ -28,15 +28,33 @@ router.put('/:username', async (req, res) => {
       username: req.params.username
     }
   })
+  //console.log(JSON.stringify(usr, null, 2))
+  usr.username = req.body.username
+  await usr.save()
+  res.json(usr)
+})
+
+router.delete('/:id', async (req, res) => {
+  const usr = await User.findByPk(req.params.id)
   if (usr) {
-    //console.log(JSON.stringify(usr, null, 2))
-    usr.username = req.body.username
-    await usr.save()
-    res.json(usr)
+    await usr.destroy()
+    res.json(usr, 'deleted!')
   }
   else {
-    res.status(404).send({ error: 'blog not found' })
+    res.status(204).send({ error: 'blog not found' })
   }
 })
+
+router.delete('/', async (req, res) => {
+  await User.destroy({
+    truncate: true
+  })
+  res.json('table wiped')
+})
+
+
+
+
+
 
 module.exports = router

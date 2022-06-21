@@ -7,12 +7,18 @@ User.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   username: {
     type: DataTypes.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: {
+        args: true,
+        msg: 'username must be an email'
+      }
+    }
   },
   name: {
     type: DataTypes.STRING,
