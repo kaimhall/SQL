@@ -24,13 +24,22 @@ const tokenExtractor = (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
-  const where = {}
+  let where = {}
 
   if (req.query.search) {
-    console.log('yes')
-    where.title = {
-      // eslint-disable-next-line quotes
-      [Op.iLike]: `%${req.query.search}%`,
+    where = {
+      [Op.or]: [
+        {
+          title: {
+            [Op.iLike]: `%${req.query.search}%`,
+          },
+        },
+        {
+          author: {
+            [Op.iLike]: `%${req.query.search}%`,
+          },
+        },
+      ],
     }
   }
 
