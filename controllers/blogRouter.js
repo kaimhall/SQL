@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const {Blog, User} = require('../models')
+const {Op} = require('sequelize')
 
 const {SECRET} = require('../utils/config')
 
@@ -23,12 +24,23 @@ const tokenExtractor = (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
+  const where = {}
+
+  if (req.query.search) {
+    console.log('yes')
+    where.title = {
+      // eslint-disable-next-line quotes
+      [Op.iLike]: `%${req.query.search}%`,
+    }
+  }
+
   const blogs = await Blog.findAll({
     attributes: {exclude: ['userId']},
     include: {
       model: User,
       attributes: ['username'],
     },
+    where,
   })
   res.json(blogs)
 })
@@ -57,7 +69,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
       },
     })
     // eslint-disable-next-line quotes
-    res.send(`deleted blog id ${req.params.id}`)
+    res.send(`deleted blog id: ${req.params.id}`)
   }
 })
 
