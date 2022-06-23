@@ -51,7 +51,6 @@ router.get('/', async (req, res) => {
       attributes: ['username'],
     },
     where,
-    //TODO:returns blogs based on likes in descending order.
     order: [['likes', 'DESC']],
   })
   res.json(blogs)
