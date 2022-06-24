@@ -11,7 +11,10 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({error: error})
   }
   if (error.name === 'TypeError') {
-    return response.status(400).send({error: error})
+    return response.status(400).send({error: error.errors})
+  }
+  if (error.name === 'MigrationError') {
+    return response.status(400).send({error: error.errors})
   }
 
   next(error)

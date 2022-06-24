@@ -2,17 +2,37 @@ const router = require('express').Router()
 
 const User = require('../models/user')
 const Blog = require('../models/blogs')
-
+//const UserReading = require('../models/user_reading')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
     include: {
       model: Blog,
-      attributes: { exclude: ['userId'] },
+      attributes: {exclude: ['userId']},
     },
   })
-
   res.json(users)
+})
+
+router.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    attributes: ['name', 'username'],
+    include: [
+      {
+        model: Blog,
+        as: 'unread_blogs',
+        attributes: {exclude: ['createdAt', 'updatedAt', 'userId']},
+        through: {
+          attributes: ['id', 'read'],
+        },
+      },
+    ],
+  })
+  if (user) {
+    res.send(user)
+  } else {
+    res.status(404).send({error: 'user blog not found'})
+  }
 })
 
 router.post('/', async (req, res) => {
@@ -38,7 +58,7 @@ router.delete('/:id', async (req, res) => {
     await usr.destroy()
     res.json(usr, 'deleted!')
   } else {
-    res.status(204).send({ error: 'blog not found' })
+    res.status(204).send({error: 'blog not found'})
   }
 })
 
