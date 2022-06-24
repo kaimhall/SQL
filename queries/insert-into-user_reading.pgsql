@@ -1,0 +1,1 @@
+insert into user_reading (user_id,blog_id) values(1,2);

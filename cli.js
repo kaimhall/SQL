@@ -12,6 +12,7 @@ const BlogRouter = require('./controllers/blogRouter')
 const UsersRouter = require('./controllers/userRouter')
 const LoginRouter = require('./controllers/login')
 const AuthorRouter = require('./controllers/authorRouter')
+const ReadingListRouter = require('./controllers/readingList')
 
 app.use(express.json())
 
@@ -19,6 +20,7 @@ app.use('/api/blogs', BlogRouter)
 app.use('/api/users', UsersRouter)
 app.use('/api/login', LoginRouter)
 app.use('/api/authors', AuthorRouter)
+app.use('/api/readinglists', ReadingListRouter)
 
 app.use(unknownEndpoint)
 

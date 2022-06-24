@@ -36,7 +36,7 @@ Blog.init(
     },
     read: {
       type: DataTypes.BOOLEAN,
-      default: false,
+      defaultValue: false,
     },
   },
   {
