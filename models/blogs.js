@@ -1,36 +1,49 @@
-const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../utils/db.js')
+const {Model, DataTypes} = require('sequelize')
+const {sequelize} = require('../utils/db.js')
 
-
-class Blog extends Model { }
+class Blog extends Model {}
 Blog.init(
   {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     author: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
     },
     url: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     title: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
     },
     likes: {
       type: DataTypes.INTEGER,
-      defaultValue: 0
-    }
+      defaultValue: 0,
+    },
+    year: {
+      type: DataTypes.INTEGER,
+      validate: {
+        isBetween(val) {
+          if (parseInt(val) < 1991 || parseInt(val) > 2022) {
+            throw new Error('year out of range.')
+          }
+        },
+      },
+    },
+    read: {
+      type: DataTypes.BOOLEAN,
+      default: false,
+    },
   },
   {
     sequelize,
     underscored: true,
     timestamps: true,
-    modelname: 'blog'
+    modelname: 'blog',
   }
 )
-module.exports = Blog 
+module.exports = Blog

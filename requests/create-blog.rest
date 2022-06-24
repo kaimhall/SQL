@@ -1,10 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3RAZ21haWwuY29tIiwiaWQiOjIsImlhdCI6MTY1NTk3OTUzNn0.P1S1C6KSJ5lAj8e-ArDKvkSGCmTy23q_k73abGgqa-o
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3RAZ21haWwuY29tIiwiaWQiOjEsImlhdCI6MTY1NjA1MzgyNn0.VnLtvrcuZjThuslJwHfaWWqbipFhVsIKLZPIO983cHk
 
 {
   "author":"root",
-  "url": "YourSite",
-  "title": "blog 5",
-  "likes": 4
+  "url": "MySite",
+  "title": "blog1 for reading list",
+  "likes": 4,
+  "year": 2022
 }

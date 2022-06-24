@@ -7,6 +7,9 @@ const errorHandler = (error, request, response, next) => {
       .status(400)
       .send({error: error.errors.map((e) => e.message)})
   }
+  if (error.name === 'InternalServerError') {
+    return response.status(400).send({error: error})
+  }
   if (error.name === 'TypeError') {
     return response.status(400).send({error: error})
   }

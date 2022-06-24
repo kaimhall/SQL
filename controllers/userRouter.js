@@ -3,21 +3,12 @@ const router = require('express').Router()
 const User = require('../models/user')
 const Blog = require('../models/blogs')
 
-/*
-const userFinder = async (req) => {
-  req.user = await User.findOne({
-    where: {
-      username: req.params.username
-    }
-  })
-}
-*/
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
     include: {
       model: Blog,
-      attributes: {exclude: ['userId']},
+      attributes: { exclude: ['userId'] },
     },
   })
 
@@ -47,7 +38,7 @@ router.delete('/:id', async (req, res) => {
     await usr.destroy()
     res.json(usr, 'deleted!')
   } else {
-    res.status(204).send({error: 'blog not found'})
+    res.status(204).send({ error: 'blog not found' })
   }
 })
 
