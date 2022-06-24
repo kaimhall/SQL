@@ -20,7 +20,6 @@ router.get('/:id', async (req, res) => {
   if (req.query.read) {
     where.read = req.query.read === 'true'
   }
-  console.log(where)
 
   const user = await User.findByPk(req.params.id, {
     attributes: ['name', 'username'],
