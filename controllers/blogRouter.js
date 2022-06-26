@@ -6,13 +6,8 @@ const {Op} = require('sequelize')
 
 const {SECRET} = require('../utils/config')
 
-const blogFinder = async (req) => {
-  req.blog = await Blog.findByPk(req.params.id)
-}
-
 const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization')
-  //TODO. verify token validity from session_data
 
   const validToken = await SessionData.findOne({
     where: {
@@ -77,9 +72,10 @@ router.post('/', tokenExtractor, async (req, res) => {
   res.json(blog)
 })
 
-router.get('/:id', blogFinder, async (req, res) => {
-  if (req.note) {
-    res.json(req.note)
+router.get('/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id)
+  if (blog) {
+    res.json(blog)
   } else {
     res.status(404).send({error: 'blog not found'})
   }
@@ -90,7 +86,11 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
   if (user.disabled) {
     return res.status(503).send('user is disabled. login again!')
   }
-  const blog = await Blog.findByPk(req.params.id)
+
+  const blog = await Blog.findByPk(parseInt(req.params.id))
+
+  console.log(blog.user)
+
   if (blog.userId === user.id) {
     blog.destroy({
       where: {
@@ -98,7 +98,9 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
       },
     })
     // eslint-disable-next-line quotes
-    res.send(`deleted blog id: ${req.params.id}`)
+    return res.send(`deleted blog id: ${req.params.id}`)
+  } else {
+    return res.send('blog not found')
   }
 })
 
@@ -110,11 +112,12 @@ router.delete('/', async (req, res) => {
   res.json('table wiped')
 })
 
-router.put('/:id', blogFinder, async (req, res) => {
-  if (req.blog) {
-    req.blog.likes = req.body.likes
-    await req.blog.save()
-    res.json(req.blog)
+router.put('/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id)
+  if (blog) {
+    blog.likes = req.body.likes
+    await blog.save()
+    res.json(blog)
   } else {
     res.status(404).send({error: 'blog not found'})
   }
