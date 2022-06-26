@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const {Blog, User} = require('../models')
+const {SessionData} = require('../models')
 const {Op} = require('sequelize')
-//const sequelize = require('../utils/db')
 
 const {SECRET} = require('../utils/config')
 
@@ -10,16 +10,28 @@ const blogFinder = async (req) => {
   req.blog = await Blog.findByPk(req.params.id)
 }
 
-const tokenExtractor = (req, res, next) => {
+const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+  //TODO. verify token validity from session_data
+
+  const validToken = await SessionData.findOne({
+    where: {
+      token: authorization.substring(7),
+    },
+  })
+
+  if (
+    validToken &&
+    authorization &&
+    authorization.toLowerCase().startsWith('bearer ')
+  ) {
     try {
       req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
     } catch {
       res.status(401).json({error: 'token invalid'})
     }
   } else {
-    res.status(401).json({error: 'token missing'})
+    res.status(401).json({error: 'token missing or expired'})
   }
   next()
 }
@@ -58,6 +70,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id)
+  if (user.disabled) {
+    return res.status(503).send('user is disabled.')
+  }
   const blog = await Blog.create({...req.body, userId: user.id})
   res.json(blog)
 })
@@ -72,6 +87,9 @@ router.get('/:id', blogFinder, async (req, res) => {
 
 router.delete('/:id', tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id)
+  if (user.disabled) {
+    return res.status(503).send('user is disabled.')
+  }
   const blog = await Blog.findByPk(req.params.id)
   if (blog.userId === user.id) {
     blog.destroy({

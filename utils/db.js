@@ -1,22 +1,23 @@
 const Sequelize = require('sequelize')
-const { DATABASE_URL } = require('./config')
-const { Umzug, SequelizeStorage } = require('umzug')
+const {DATABASE_URL} = require('./config')
+const {Umzug, SequelizeStorage} = require('umzug')
 const log = require('./logger')
 
 const sequelize = new Sequelize(DATABASE_URL, {
+  dialect: 'postgres',
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false
-    }
-  }
+      rejectUnauthorized: false,
+    },
+  },
 })
 
 const migrationConf = {
   migrations: {
     glob: 'migrations/*.js',
   },
-  storage: new SequelizeStorage({ sequelize, tableName: 'migrations' }),
+  storage: new SequelizeStorage({sequelize, tableName: 'migrations'}),
   context: sequelize.getQueryInterface(),
   logger: console,
 }
@@ -45,4 +46,4 @@ const DBConnect = async () => {
   }
   return null
 }
-module.exports = { DBConnect, sequelize, rollbackMigration }
+module.exports = {DBConnect, sequelize, rollbackMigration}

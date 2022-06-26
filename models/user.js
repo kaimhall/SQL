@@ -3,6 +3,8 @@ const {sequelize} = require('../utils/db.js')
 
 class User extends Model {}
 
+//todo. implement boolean field 'disabled'. use new migration.
+
 User.init(
   {
     id: {
@@ -24,6 +26,10 @@ User.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    disabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {

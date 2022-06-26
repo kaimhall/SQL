@@ -1,0 +1,6 @@
+PUT http://localhost:3001/api/logout/root@gmail.com
+Content-Type: application/json
+
+{
+  "disabled": true
+}
