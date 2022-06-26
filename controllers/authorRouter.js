@@ -1,20 +1,17 @@
+const Sequelize = require('sequelize') // have to use module, not intance of it
 const router = require('express').Router()
-const { Blog, User } = require('../models')
-const sequelize = require('../utils/db')
-
+const {Blog} = require('../models')
 
 router.get('/', async (req, res) => {
   const authors = await Blog.findAll({
     attributes: [
-      'author', 'title', 'likes',
-      [sequelize.fn('COUNT'), sequelize.col('title'), 'articles'],
-      [sequelize.fn('SUM'), sequelize.col('likes'), 'likes'],
+      'author',
+      [Sequelize.fn('count', Sequelize.col('Blog.title')), 'blogs'],
+      [Sequelize.fn('sum', Sequelize.col('Blog.likes')), 'likes'],
     ],
-    include: {
-      model: User,
-      attributes: ['id']
-    },
-    group: ['author']
+    group: ['Blog.author'],
+    raw: true,
+    order: Sequelize.literal('likes DESC'),
   })
   res.json(authors)
 })

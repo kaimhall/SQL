@@ -1,11 +1,11 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3RAZ21haWwuY29tIiwiaWQiOjEsImlhdCI6MTY1NjIyNzI3MX0.KQSxMDf0tovDZhCdXz5aACti0XSJX4hmlfbDf-Y9dXo
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthaWhhbGxAZ21haWwuY29tIiwiaWQiOjIsImlhdCI6MTY1NjI0MDIzOH0.UvL0_LbfhDvL2D0GouNYZWFqNDfm2QYGMbQneFlnnOk
 
 {
-  "author":"root",
+  "author":"kaihall",
   "url": "site.com",
-  "title": "my blog eight",
-  "likes": 1,
+  "title": "my blog ten",
+  "likes": 5,
   "year": 2022
 }

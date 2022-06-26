@@ -71,7 +71,7 @@ router.get('/', async (req, res) => {
 router.post('/', tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id)
   if (user.disabled) {
-    return res.status(503).send('user is disabled.')
+    return res.status(503).send('user is disabled.login again!')
   }
   const blog = await Blog.create({...req.body, userId: user.id})
   res.json(blog)
@@ -88,7 +88,7 @@ router.get('/:id', blogFinder, async (req, res) => {
 router.delete('/:id', tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id)
   if (user.disabled) {
-    return res.status(503).send('user is disabled.')
+    return res.status(503).send('user is disabled. login again!')
   }
   const blog = await Blog.findByPk(req.params.id)
   if (blog.userId === user.id) {
